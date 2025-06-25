@@ -1,31 +1,52 @@
-`timescale 1ns/1ps
+`timescale 1ns / 1ps
 
-module testbench;
-    reg clk = 0;
-    reg reset = 1;
-    reg roll_button = 0;
-    wire [2:0] dice;
+module tb_dice_generator;
 
-    dice_top dut(
+    reg clk;
+    reg reset;
+    reg roll;
+    wire [2:0] dice_value;
+
+    // Instantiate the design
+    dice_generator uut (
         .clk(clk),
         .reset(reset),
-        .roll_button(roll_button),
-        .dice(dice)
+        .roll(roll),
+        .dice_value(dice_value)
     );
 
-    always #5 clk = ~clk;
-
+    // Clock generation
     initial begin
-        $dumpfile("dice.vcd");
-        $dumpvars(0, testbench);
+        clk = 0;
+        forever #5 clk = ~clk;  // 10ns clock period
+    end
 
-        #10 reset = 0;
+    // Test sequence
+    initial begin
+        // 🔽 Add these lines to generate VCD
+        $dumpfile("dice_waveform.vcd");      // Output VCD filename
+        $dumpvars(0, tb_dice_generator);     // Dump all variables in this testbench
 
+        $display("Time\tReset\tRoll\tDice_Value");
+        $monitor("%g\t%b\t%b\t%d", $time, reset, roll, dice_value);
+
+        // Initial values
+        reset = 1;
+        roll = 0;
+        #10;
+
+        // Release reset
+        reset = 0;
+        #10;
+
+        // Simulate rolling the dice 10 times
         repeat (10) begin
-            #20 roll_button = 1;
-            #20 roll_button = 0;
+            roll = 1;
+            #10;
+            roll = 0;
+            #10;
         end
 
-        #100 $finish;
+        $finish;
     end
 endmodule
