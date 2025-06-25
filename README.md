@@ -1,27 +1,65 @@
-### Alarm Clock Module Description
+# 🎲 Digital Dice Roller using Verilog
 
-This Verilog module implements a basic alarm clock that tracks the current time in hours, minutes, and seconds. It allows for setting the current time and an alarm time, and it raises an alarm signal when the current time matches the set alarm time. The module also handles resetting the alarm and generating a 1-second clock pulse from a given system clock.
+A simple and effective Verilog project that simulates a 6-sided digital dice. Built using modular design principles, this project is perfect for beginners exploring digital design and simulation using Verilog. The dice output updates with each simulated "roll" and loops through values from 1 to 6.
 
-#### Inputs:
-- `reset`: Resets the clock and alarm settings.
-- `clk`: System clock input.
-- `H_in1`, `H_in0`: Inputs for setting the hour (tens and units place).
-- `M_in1`, `M_in0`: Inputs for setting the minute (tens and units place).
-- `LD_time`: Load signal for setting the current time.
-- `LD_alarm`: Load signal for setting the alarm time.
-- `STOP_al`: Signal to stop the alarm.
-- `AL_ON`: Signal to turn on the alarm.
+---
 
-#### Outputs:
-- `Alarm`: Output signal indicating whether the alarm is active.
-- `H_out1`, `H_out0`: Outputs for the current hour (tens and units place).
-- `M_out1`, `M_out0`: Outputs for the current minute (tens and units place).
-- `S_out1`, `S_out0`: Outputs for the current second (tens and units place).
+## ✅ Features
 
-#### Internal Registers:
-- `clk_1s`: 1-second clock signal.
-- `tmp_1s`: Temporary counter for generating the 1-second clock signal.
-- `tmp_hour`, `tmp_minute`, `tmp_second`: Temporary registers for holding the current hour, minute, and second values.
-- `c_hour1`, `c_hour0`, `c_min1`, `c_min0`, `c_sec1`, `c_sec0`: Registers for the current time's tens and units place.
-- `a_hour1`, `a_hour0`, `a_min1`, `a_min0`, `a_sec1`, `a_sec0`: Registers for the alarm time's tens and units place.
+- 🔁 **Digital Dice Simulation**: Cycles through numbers 1 to 6 on each roll
+- 🧠 **Modular Verilog Design**: Clean separation into clock divider, dice logic, and top module
+- ⏱️ **Clock Divider**: Slows system clock for visible output
+- 🧪 **Testbench Provided**: Easy to simulate using Icarus Verilog
+- 📈 **Waveform Debugging**: Compatible with GTKWave for waveform viewing
+- 🌐 **Online Compatibility**: Works on EDAPlayground (no installation needed)
 
+---
+
+## 🧰 Applications
+
+- 🎲 Game development (random dice simulation)
+- 🧪 Teaching tool for Verilog basics
+- 🔧 Learning FSMs and counters in digital design
+- 📊 Timing control and waveform analysis practice
+- 🧠 Foundation for larger FPGA-based games or educational kits
+
+---
+
+## 🖥️ Files Included
+
+- `clock_divider.v` – Slows down the main clock signal
+- `dice_logic.v` – Controls the dice increment and looping
+- `dice_top.v` – Top module to connect all submodules
+- `testbench.v` – Simulates clock, reset, and roll_button signals
+- `README.md` – Project documentation
+
+---
+
+## 📦 How to Install and Run Locally
+
+### 🔧 Prerequisites
+
+- [Icarus Verilog](http://iverilog.icarus.com/)
+- [GTKWave](http://gtkwave.sourceforge.net/)
+- Terminal / command prompt
+- VS Code (optional, for editing)
+
+### 🛠️ Steps to Run
+
+1. **Clone or Download** this repository
+   ```bash
+   git clone https://github.com/yourusername/verilog-dice-roller.git
+   cd verilog-dice-roller
+   ```
+2. Compile the Verilog Files:
+   ```bash
+   iverilog -o dice_sim dice_top.v clock_divider.v dice_logic.v testbench.v
+   ```
+3. Run the simulation:
+   ```bash
+   vvp dice_sim
+   ```
+4.View the wavefom in GTKWave:
+  ```bash
+  gtkwave dice.vcd
+  ```
