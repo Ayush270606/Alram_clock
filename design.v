@@ -1,62 +1,18 @@
-// clock_divider.v
-module clock_divider(
-    input clk,
-    input reset,
-    output reg slow_clk
+module dice_generator (
+    input clk,           // Clock input
+    input reset,         // Active high reset
+    input roll,          // Roll signal (like a button press)
+    output reg [2:0] dice_value  // Dice output: values from 1 to 6
 );
-    reg [24:0] count;
-    always @(posedge clk or posedge reset) begin
-        if (reset) begin
-            count <= 0;
-            slow_clk <= 0;
-        end else begin
-            if (count == 25) begin
-                count <= 0;
-                slow_clk <= ~slow_clk;
-            end else begin
-                count <= count + 1;
-            end
-        end
-    end
-endmodule
 
-// dice_logic.v
-module dice_logic(
-    input clk,
-    input reset,
-    input roll,
-    output reg [2:0] dice_number
-);
     always @(posedge clk or posedge reset) begin
         if (reset)
-            dice_number <= 1;
-        else if (roll)
-            if (dice_number == 6)
-                dice_number <= 1;
+            dice_value <= 3'd1;  // Reset to 1
+        else if (roll) begin
+            if (dice_value == 3'd6)
+                dice_value <= 3'd1;  // Loop back to 1 after 6
             else
-                dice_number <= dice_number + 1;
+                dice_value <= dice_value + 1;  // Increment
+        end
     end
-endmodule
-
-// dice_top.v
-module dice_top(
-    input clk,
-    input reset,
-    input roll_button,
-    output [2:0] dice
-);
-    wire slow_clk;
-
-    clock_divider u1(
-        .clk(clk),
-        .reset(reset),
-        .slow_clk(slow_clk)
-    );
-
-    dice_logic u2(
-        .clk(slow_clk),
-        .reset(reset),
-        .roll(roll_button),
-        .dice_number(dice)
-    );
 endmodule
