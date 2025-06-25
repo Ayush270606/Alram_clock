@@ -53,7 +53,7 @@ A simple and effective Verilog project that simulates a 6-sided digital dice. Bu
    ```
 2. Compile the Verilog Files:
    ```bash
-   iverilog -o dice_sim dice_top.v clock_divider.v dice_logic.v testbench.v
+   iverilog -o dice_sim design.v testbench.v
    ```
 3. Run the simulation:
    ```bash
@@ -61,5 +61,5 @@ A simple and effective Verilog project that simulates a 6-sided digital dice. Bu
    ```
 4.View the wavefom in GTKWave:
   ```bash
-  gtkwave dice.vcd
+  gtkwave dice_waveform.vcd
   ```
